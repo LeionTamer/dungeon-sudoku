@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, KeyboardEvent } from "react";
 
 const Sudoku = () => {
   const puzzle =
@@ -13,8 +13,14 @@ const Sudoku = () => {
   // onBlur function => setAnswer (), validateCell
 
   const handleChange = (index: number, value: string) => {
-    const updated = values.split("").splice(index, 1, value).join();
-    setValues(updated);
+    if (parseInt(value) >= 1 && parseInt(value) <= 9) {
+      const updated = values.split("").splice(index, 1, value).join();
+      setValues(updated);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    console.table(e);
   };
 
   const Cell = ({
@@ -28,20 +34,29 @@ const Sudoku = () => {
   }) => {
     const sudokuIndex = row * 9 + column;
     const disabled = puzzle[sudokuIndex] !== ".";
+    const currentValue = disabled
+      ? puzzle[sudokuIndex]
+      : values[sudokuIndex] === "."
+      ? undefined
+      : values[sudokuIndex];
     return (
       <span
-        className={`${disabled ? "bg-gray-500" : "bg-slate-200"} w-12 h-12`}
+        className={`${
+          disabled ? "bg-gray-500" : "bg-slate-200"
+        } inline-block w-12 h-12 border border-sky-500`}
       >
         <input
           type="number"
           min="1"
           max="9"
-          className="bg-transparent text-slate-700 text-2xl "
-          value={values[sudokuIndex]}
+          className="bg-transparent text-slate-700 text-2xl w-10"
+          value={currentValue}
+          onKeyUp={(e) => handleKeyPress(e)}
           onChange={(e) =>
             handleChange(sudokuIndex, e.currentTarget.value as string)
           }
-          defaultValue={puzzle[sudokuIndex]}
+          onBlur={() => console.log("I was called")}
+          // defaultValue={puzzle[sudokuIndex]}
           disabled={disabled}
         />
       </span>
