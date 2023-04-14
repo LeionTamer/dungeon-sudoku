@@ -36,7 +36,9 @@ const Sudoku = () => {
       <span
         className={`${
           disabled ? "bg-gray-500" : "bg-slate-200"
-        } inline-block w-12 h-12 border border-sky-500`}
+        } inline-block w-12 h-12 border ${
+          column < 8 && (column + 1) % 3 === 0 && "border-r-4"
+        } ${row < 8 && (row + 1) % 3 === 0 && "border-b-4"} border-sky-500`}
       >
         <input
           type="number"
