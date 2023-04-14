@@ -14,7 +14,7 @@ Run the application with `npm run dev` then open the local dev environment `http
 Logic:
 
 - [ ] Validation logic for cells
-- [ ] Keypress logic
+- [x] Keypress logic - repeated input when holding key down
 
 Interactivity
 
