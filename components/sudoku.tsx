@@ -59,7 +59,7 @@ const Sudoku = () => {
 
   const Grid = () => {
     return (
-      <div className="m-0 p-0">
+      <div className="mx-auto p-0.5 border-4 border-green-700">
         {[...Array(9)].map((_, row) => {
           return (
             <div key={row} className="p-0 m-0 ">
