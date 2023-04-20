@@ -1,6 +1,5 @@
 # Overview
 
-Sudoku application for a Job Application for Maptek
 Created with NextJS React with Typescript and Tailwind
 
 ## Running the application
