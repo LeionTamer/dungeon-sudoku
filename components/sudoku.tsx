@@ -1,4 +1,4 @@
-import { Fragment, useState, KeyboardEvent } from "react";
+import { Fragment, useState, KeyboardEvent, useMemo } from "react";
 
 const Sudoku = () => {
   const puzzle =
@@ -16,14 +16,15 @@ const Sudoku = () => {
     }
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key);
-
-    if (!e.repeat) e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const Cell = ({ row, column }: { row: number; column: number }) => {
+  const Cell = ({
+    row,
+    column,
+    error = false,
+  }: {
+    row: number;
+    column: number;
+    error?: boolean;
+  }) => {
     const sudokuIndex = row * 9 + column;
     const disabled = puzzle[sudokuIndex] !== ".";
     const currentValue = disabled
@@ -45,7 +46,9 @@ const Sudoku = () => {
           min="1"
           max="9"
           maxLength={1}
-          className="bg-transparent text-slate-700 text-2xl w-10"
+          className={`bg-transparent text-slate-700 text-2xl w-10 ${
+            error && `text-red-700 font-bold`
+          }`}
           value={currentValue}
           onChange={(e) => {
             handleChange(sudokuIndex, e.currentTarget.value as string);
@@ -58,18 +61,56 @@ const Sudoku = () => {
   };
 
   const Grid = () => {
+    const gridData = [...Array(9)].map((_, row) =>
+      [...Array(9)].map((_, column) => values[row * 9 + column])
+    );
+
+    const getColumnArrays = () => {
+      let columnArray = [];
+      for (let column = 0; column <= 8; column++) {
+        let rowArray = [];
+        for (let row = 0; row <= 8; row++) {
+          if (gridData[row][column] !== ".")
+            rowArray.push(gridData[row][column]);
+        }
+        columnArray.push(rowArray);
+      }
+      return columnArray;
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const columnValues = useMemo(getColumnArrays, []);
+
+    const validColumn = (column: number, value: string) => {
+      const count = columnValues[column].filter(
+        (entry) => entry === value
+      ).length;
+      return count >= 2;
+    };
+
     return (
-      <div className="mx-auto p-0.5 border-4 border-green-700">
-        {[...Array(9)].map((_, row) => {
-          return (
-            <div key={row} className="p-0 m-0 ">
-              {[...Array(9)].map((_, column) => (
-                <Cell key={`${row}_${column}`} column={column} row={row} />
-              ))}
-            </div>
-          );
-        })}
-      </div>
+      <>
+        <div className="mx-auto p-0.5 border-4 border-green-700">
+          {[...Array(9)].map((_, row) => {
+            return (
+              <div key={row} className="p-0 m-0 ">
+                {[...Array(9)].map((_, column) => {
+                  const error = validColumn(column, gridData[row][column]);
+                  // console.log(columnValues[column]);
+                  return (
+                    <Cell
+                      key={`${row}_${column}`}
+                      column={column}
+                      row={row}
+                      error={error}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </>
     );
   };
 
