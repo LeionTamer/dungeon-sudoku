@@ -57,7 +57,6 @@ const Sudoku = () => {
           onChange={(e) => {
             handleChange(sudokuIndex, e.currentTarget.value as string);
           }}
-          onBlur={() => console.log("I was called")}
           disabled={disabled}
         />
       </span>
@@ -102,7 +101,6 @@ const Sudoku = () => {
             for (let column = gridColumn; column <= gridColumn + 2; column++) {
               if (gridData[row][column] !== ".")
                 squareArray.push(gridData[row][column]);
-              console.log(row, column);
             }
           }
           gridArray.push(squareArray);
