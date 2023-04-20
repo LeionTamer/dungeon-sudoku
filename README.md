@@ -13,7 +13,7 @@ Run the application with `npm run dev` then open the local dev environment `http
 
 Logic:
 
-- [ ] Validation logic for cells
+- [x] Validation logic for cells
 - [x] Keypress logic - repeated input when holding key down
 
 Interactivity
@@ -24,5 +24,10 @@ Interactivity
 
 Styling
 
-- [ ] 9x9 cell styling
-- [ ] Error styles
+- [x] 9x9 cell styling
+- [x] Error styles
+
+Extra bits:
+
+- [ ] Sudoku Context
+- [ ] Separate Grid and Cell components

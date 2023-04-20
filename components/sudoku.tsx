@@ -93,10 +93,30 @@ const Sudoku = () => {
       return rowArray;
     };
 
+    const getGridArrays = () => {
+      let gridArray = [];
+      for (let gridRow = 0; gridRow <= 8; gridRow += 3) {
+        for (let gridColumn = 0; gridColumn <= 8; gridColumn += 3) {
+          let squareArray = [];
+          for (let row = gridRow; row <= gridRow + 2; row++) {
+            for (let column = gridColumn; column <= gridColumn + 2; column++) {
+              if (gridData[row][column] !== ".")
+                squareArray.push(gridData[row][column]);
+              console.log(row, column);
+            }
+          }
+          gridArray.push(squareArray);
+        }
+      }
+      return gridArray;
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const columnValues = useMemo(getColumnArrays, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const rowValues = useMemo(getRowArrays, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const gridValues = useMemo(getGridArrays, []);
 
     const invalidColumn = (column: number, value: string) => {
       const count = columnValues[column].filter(
@@ -110,6 +130,12 @@ const Sudoku = () => {
       return count >= 2;
     };
 
+    const invalidGrid = (row: number, column: number, value: string) => {
+      const index = Math.floor(row / 3) * 3 + Math.floor(column / 3);
+      const count = gridValues[index].filter((entry) => entry === value).length;
+      return count >= 2;
+    };
+
     return (
       <>
         <div className="mx-auto p-0.5 border-4 border-green-700">
@@ -119,7 +145,8 @@ const Sudoku = () => {
                 {[...Array(9)].map((_, column) => {
                   const error =
                     invalidColumn(column, gridData[row][column]) ||
-                    invalidRows(row, gridData[row][column]);
+                    invalidRows(row, gridData[row][column]) ||
+                    invalidGrid(row, column, gridData[row][column]);
                   return (
                     <Cell
                       key={`${row}_${column}`}
