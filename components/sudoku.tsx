@@ -36,7 +36,11 @@ const Sudoku = () => {
     return (
       <span
         className={`${
-          disabled ? "bg-gray-500" : "bg-slate-200"
+          disabled
+            ? "bg-gray-500"
+            : error
+            ? `bg-red-100 opacity-90`
+            : `bg-slate-200`
         } inline-block w-12 h-12 border ${
           column < 8 && (column + 1) % 3 === 0 && "border-r-4"
         } ${row < 8 && (row + 1) % 3 === 0 && "border-b-4"} border-sky-500`}
@@ -69,22 +73,40 @@ const Sudoku = () => {
       let columnArray = [];
       for (let column = 0; column <= 8; column++) {
         let rowArray = [];
-        for (let row = 0; row <= 8; row++) {
+        for (let row = 0; row <= 8; row++)
           if (gridData[row][column] !== ".")
             rowArray.push(gridData[row][column]);
-        }
         columnArray.push(rowArray);
       }
       return columnArray;
     };
 
+    const getRowArrays = () => {
+      let rowArray = [];
+      for (let row = 0; row <= 8; row++) {
+        let columnArray = [];
+        for (let column = 0; column <= 8; column++)
+          if (gridData[row][column] !== ".")
+            columnArray.push(gridData[row][column]);
+        rowArray.push(columnArray);
+      }
+      return rowArray;
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const columnValues = useMemo(getColumnArrays, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const rowValues = useMemo(getRowArrays, []);
 
-    const validColumn = (column: number, value: string) => {
+    const invalidColumn = (column: number, value: string) => {
       const count = columnValues[column].filter(
         (entry) => entry === value
       ).length;
+      return count >= 2;
+    };
+
+    const invalidRows = (row: number, value: string) => {
+      const count = rowValues[row].filter((entry) => entry === value).length;
       return count >= 2;
     };
 
@@ -95,8 +117,9 @@ const Sudoku = () => {
             return (
               <div key={row} className="p-0 m-0 ">
                 {[...Array(9)].map((_, column) => {
-                  const error = validColumn(column, gridData[row][column]);
-                  // console.log(columnValues[column]);
+                  const error =
+                    invalidColumn(column, gridData[row][column]) ||
+                    invalidRows(row, gridData[row][column]);
                   return (
                     <Cell
                       key={`${row}_${column}`}
