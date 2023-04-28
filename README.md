@@ -28,5 +28,5 @@ Styling
 
 Extra bits:
 
-- [ ] Sudoku Context
-- [ ] Separate Grid and Cell components
+- [x] Sudoku Context
+- [x] Separate Grid and Cell components
