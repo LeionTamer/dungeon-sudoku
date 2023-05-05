@@ -4,6 +4,13 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 const API_KEY = process.env.SUDOKU_API_KEY
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<GenerateSudokuType | Error>
@@ -13,9 +20,11 @@ export default function handler(
       headers: {
         'X-RapidAPI-Key': API_KEY as string,
         'X-RapidAPI-Host': 'sudoku-generator1.p.rapidapi.com'
-      }
+      },
     }).then(response => response.json())
-      .then(data => res.status(200).send(data))
+      .then(data => {
+        res.status(200).send(data)
+      })
 
   } catch (e) {
     const error = new Error("somethinge went wrong")
