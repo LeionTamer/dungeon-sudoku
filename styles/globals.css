@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer components {
+  .btn {
+    min-width: 50px;
+    padding: 10px;
+    border: 2.25px solid blue;
+    border-radius: 5px;
+  }
+}

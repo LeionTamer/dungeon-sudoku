@@ -12,10 +12,8 @@ type SudokuStateType = {
 };
 
 const initState: SudokuStateType = {
-  puzzle:
-    "...465......2..7..9....76..6....234..15...2.9.4...8........6..17.1...9.3..9...5..",
-  values:
-    "...465......2..7..9....76..6....234..15...2.9.4...8........6..17.1...9.3..9...5..",
+  puzzle: "",
+  values: "",
 };
 
 const SudokuContext = createContext<{

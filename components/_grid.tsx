@@ -72,6 +72,8 @@ export default function Grid() {
     return count >= 2;
   };
 
+  if (state.puzzle.length !== 81) return null;
+
   return (
     <>
       <div className="mx-auto p-0.5 border-4 border-green-700">
