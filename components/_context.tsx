@@ -9,6 +9,7 @@ import {
 type SudokuStateType = {
   puzzle: string; // puzzle would be the original puzzle and will determine if the cell is disabled
   values: string; // this is where the user inputs would be stored
+  error?: string;
 };
 
 const initState: SudokuStateType = {

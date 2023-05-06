@@ -10,7 +10,6 @@ export const config = {
   },
 };
 
-
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<GenerateSudokuType | Error>
@@ -27,7 +26,7 @@ export default function handler(
       })
 
   } catch (e) {
-    const error = new Error("somethinge went wrong")
+    const error = new Error("something went wrong")
     res.status(500).send(error)
   }
 }

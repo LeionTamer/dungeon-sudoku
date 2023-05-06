@@ -14,12 +14,13 @@ Logic:
 
 - [x] Validation logic for cells
 - [x] Keypress logic - repeated input when holding key down
+- [ ] Delete an entry in a cell with keypress
 
 Interactivity
 
-- [ ] API endpoints to connect to RapidAPI
-- [ ] Sudoku Generator
-- [ ] Sudoku Solver / Validator
+- [x] API endpoints to connect to RapidAPI
+- [x] Sudoku Generator
+- [x] Sudoku Solver / Validator
 
 Styling
 
