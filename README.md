@@ -14,7 +14,7 @@ Logic:
 
 - [x] Validation logic for cells
 - [x] Keypress logic - repeated input when holding key down
-- [ ] Delete an entry in a cell with keypress
+- [x] Delete an entry in a cell with keypress
 
 Interactivity
 

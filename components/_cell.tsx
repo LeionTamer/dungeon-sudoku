@@ -1,3 +1,4 @@
+import { KeyboardEvent } from "react";
 import { useSudokuContext } from "./_context";
 
 interface ICellProps {
@@ -14,7 +15,19 @@ export default function Cell(props: ICellProps) {
       let splitArray = values.split("");
       splitArray[index] = value;
       const updated = splitArray.join("");
-      dispatch({ values: updated });
+      dispatch({ values: updated, error: undefined });
+    }
+  };
+
+  const handleKeyPress = (
+    e: KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Delete" || e.key === "Backspace") {
+      let splitArray = values.split("");
+      splitArray[index] = ".";
+      const updated = splitArray.join("");
+      dispatch({ values: updated, error: undefined });
     }
   };
 
@@ -54,6 +67,7 @@ export default function Cell(props: ICellProps) {
         onChange={(e) => {
           handleChange(sudokuIndex, e.currentTarget.value as string);
         }}
+        onKeyUp={(e) => handleKeyPress(e, sudokuIndex)}
         disabled={disabled}
       />
     </span>
